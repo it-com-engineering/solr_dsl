@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+. venv/bin/activate
+pip install setuptools wheel twine
+
+python setup.py sdist bdist_wheel
+twine upload dist/*
+
+rm -r build/ dist/ solr_dsl.egg-info/
