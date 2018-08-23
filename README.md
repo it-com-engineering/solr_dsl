@@ -1,12 +1,10 @@
 # solr-dsl
 
-A high-level library for querying Solr with Python. Build on the lower-level Pysolr.
+A high-level library for querying Solr with Python. Built on the lower-level Pysolr.
 
 ## Example
 
 ```
-from datetime import date, datetime
-
 from pysolr import Solr
 from solr_dsl import Search
 

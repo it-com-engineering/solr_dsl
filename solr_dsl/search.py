@@ -25,7 +25,7 @@ class Search():
 
     def scan(self):
         """Iterate over documents that match the search."""
-        return Cursor(self.build(), self.solr)
+        return Cursor(self.solr, self.build())
 
     def build(self):
         """Construct the query."""
