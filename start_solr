@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+docker pull solr
+docker run --name solr -d -p 8983:8983 -t solr
+docker exec -it --user=solr solr bin/solr create_core -c test
