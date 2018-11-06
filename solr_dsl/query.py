@@ -12,21 +12,18 @@ class Query:
 
 class Term(Query):
 
-    def __init__(self, value):
-        self.value = value
+    def __init__(self, *values):
+        self.values = values
 
     def __str__(self):
-        if ' ' in self.value:
-            return self.value
-        else:
-            return f'"{self.value}"'
+        return parenthesize(' OR '.join(quote(value) for value in self.values))
 
 
 class Field(Query):
 
-    def __init__(self, field, value):
+    def __init__(self, field, *values):
         self.field = field
-        self.term = Term(value)
+        self.term = Term(*values)
 
     def __str__(self):
         return '{}:{}'.format(self.field, self.term)
