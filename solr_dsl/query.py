@@ -29,7 +29,7 @@ class Field(Query):
         self.term = Term(value)
 
     def __str__(self):
-        return f'{self.field}:{self.term}'
+        return '{}:{}'.format(self.field, self.term)
 
 
 class Range(Query):
@@ -40,7 +40,9 @@ class Range(Query):
         self.lower_bound = Term(lower_bound)
 
     def __str__(self):
-        return f'{self.field}:[{self.upper_bound} TO {self.lower_bound}]'
+        return '{}:[{} TO {}]'.format(self.field,
+                                      self.upper_bound,
+                                      self.lower_bound)
 
 
 class And(Query):
@@ -50,7 +52,7 @@ class And(Query):
         self.right_operand = right_operand
 
     def __str__(self):
-        return f'({self.left_operand} AND {self.right_operand})'
+        return '({} AND {})'.format(self.left_operand, self.right_operand)
 
 
 class Or(Query):
@@ -60,7 +62,7 @@ class Or(Query):
         self.right_operand = right_operand
 
     def __str__(self):
-        return f'({self.left_operand} OR {self.right_operand})'
+        return '({} OR {})'.format(self.left_operand, self.right_operand)
 
 
 class Not(Query):
@@ -69,4 +71,15 @@ class Not(Query):
         self.operand
 
     def __str__(self):
-        return f'(NOT {self.operand})'
+        return '(NOT {})'.format(self.operand)
+
+
+def quote(value):
+    if ' ' in value:
+        return '"{}"'.format(value)
+    else:
+        return value
+
+
+def parenthesize(value):
+    return '({})'.format(value)

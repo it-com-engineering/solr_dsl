@@ -1,8 +1,10 @@
+import six
+
 BATCH_SIZE = 100
 SORT = "date desc, id asc"
 
 
-class Cursor:
+class Cursor(six.Iterator):
 
     def __init__(self, solr, query):
         self.solr = solr
@@ -29,7 +31,7 @@ class Cursor:
         self.batch = results.docs
 
     def select(self):
-        return self.solr.search(self.query,
+        return self.solr.search(str(self.query),
                                 cursorMark=self.mark,
                                 rows=BATCH_SIZE,
                                 sort=SORT)
