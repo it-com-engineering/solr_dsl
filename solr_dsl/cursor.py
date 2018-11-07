@@ -6,12 +6,12 @@ SORT = "date desc, id asc"
 
 class Cursor(six.Iterator):
 
-    def __init__(self, solr, query):
+    def __init__(self, solr, query, **kwargs):
         self.solr = solr
         self.query = query
         self.mark = "*"
         self.batch = []
-        self.position = 0
+        self.kwargs = kwargs
 
     def __iter__(self):
         return self
@@ -31,7 +31,8 @@ class Cursor(six.Iterator):
         self.batch = results.docs
 
     def select(self):
-        return self.solr.search(str(self.query),
-                                cursorMark=self.mark,
-                                rows=BATCH_SIZE,
-                                sort=SORT)
+        kwargs = dict(cursorMark=self.mark,
+                      rows=BATCH_SIZE,
+                      sort=SORT,
+                      **self.kwargs)
+        return self.solr.search(str(self.query), **kwargs)
