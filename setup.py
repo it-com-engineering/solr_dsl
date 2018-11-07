@@ -6,7 +6,7 @@ with open("README.md") as f:
 
 setuptools.setup(
     name="solr-dsl",
-    version="0.0.13",
+    version="0.0.14",
     author="Elliot Penson",
     author_email="elliotpenson@gmail.com",
     description="Python client for Solr",
