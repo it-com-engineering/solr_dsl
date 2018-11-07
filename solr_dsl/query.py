@@ -12,21 +12,27 @@ class Query:
 
 class Term(Query):
 
-    def __init__(self, *values):
-        self.values = values
+    def __init__(self, value):
+        self.value = value
 
     def __str__(self):
-        return parenthesize(' OR '.join(quote(value) for value in self.values))
+        return quote(self.value)
 
 
 class Field(Query):
 
     def __init__(self, field, *values):
+        if len(values) == 0:
+            raise ValueError('Must have at least one value.')
         self.field = field
-        self.term = Term(*values)
+        self.values = values
 
     def __str__(self):
-        return '{}:{}'.format(self.field, self.term)
+        if len(self.values) == 1:
+            return '{}:{}'.format(self.field, quote(self.values[0]))
+        else:
+            expression = ' OR '.join(quote(value) for value in self.values)
+            return '{}:({})'.format(self.field, expression)
 
 
 class Range(Query):
@@ -76,7 +82,3 @@ def quote(value):
         return '"{}"'.format(value)
     else:
         return value
-
-
-def parenthesize(value):
-    return '({})'.format(value)
